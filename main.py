@@ -3,6 +3,9 @@ import sys
 import cv2
 import urllib.request
 import pyrebase
+import os
+from gtts import gTTS
+from mail import sendEmail
 
 #Firebase
 config = {
@@ -16,13 +19,16 @@ firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
 def stream_handler(message):
-      print('data changed')
+      text=message['data']
+      tts = gTTS(text=text, lang='vi', slow=False)
+      tts.save("voice.mp3")
+      os.system("mpg321 voice.mp3")
+      print(text)
 
-my_stream = db.child("user").stream(stream_handler)
+my_stream = db.child("chat").stream(stream_handler)
 
-# Image Detect
-url='http://192.168.1.13:8080/shot.jpg?rnd=51290'
-count=0
+#Image Detect
+url='http://192.168.43.1:8080/shot.jpg?rnd=51290'
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
@@ -37,10 +43,11 @@ while True:
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
     for (x,y,w,h) in faces:
-        count+=1
         print('Face {0}'.format(len(faces)))
-        cv2.imwrite('face_'+str(count)+'.png',img)
+        os.system("mpg321 nhacotrom.mp3")
         img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        cv2.imwrite('face_detected.jpg',img)
+        sendEmail('face_detected.jpg')
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
         eyes = eye_cascade.detectMultiScale(roi_gray)
@@ -54,3 +61,4 @@ while True:
    #Exit loop
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
