@@ -1,4 +1,5 @@
 import pyrebase
+import RPi.GPIO as GPIO
 import time
 import threading
 
@@ -12,6 +13,29 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
+
+#init GPIO
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setwarnings(False)
+
+GPIO.setup(13,GPIO.OUT)
+GPIO.setup(6,GPIO.OUT)
+GPIO.setup(5,GPIO.OUT)
+GPIO.setup(11,GPIO.OUT)
+GPIO.setup(9,GPIO.OUT)
+GPIO.setup(10,GPIO.OUT) #relay3
+GPIO.setup(22,GPIO.OUT) #relay2
+GPIO.setup(27,GPIO.OUT) #relay1
+
+GPIO.output(13,GPIO.LOW)
+GPIO.output(6,GPIO.LOW)
+GPIO.output(5,GPIO.LOW)
+GPIO.output(11,GPIO.LOW)
+GPIO.output(9,GPIO.LOW)
+GPIO.output(10,GPIO.LOW)
+GPIO.output(22,GPIO.LOW)
+GPIO.output(27,GPIO.LOW)
 
 #Thread
 count1=0
@@ -55,8 +79,10 @@ def blinkRelay2(threadName):
 def stream_relay1(message):
       if message['path']== '/TurnOn':
           if message['data']==True:
+              GPIO.output(27,GPIO.HIGH)
               print('Relay1-TurnOn-true')
           else:
+              GPIO.output(27,GPIO.LOW)
               print('Relay1-TurnOn-false')
 
       if message['path']== '/Blink':
