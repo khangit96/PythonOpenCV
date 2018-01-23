@@ -58,9 +58,15 @@ def stream_relay1(message):
       if message['path']== '/TurnOn':
           if message['data']==True:
               #GPIO.output(27,GPIO.HIGH)
+              f=open('/home/pi/Desktop/PythonOpenCV/log.txt','w')
+              f.write('Relay1-TurnOn')
+              f.close()
               print('Relay1-TurnOn-true')
           else:
              # GPIO.output(27,GPIO.LOW)
+              f=open('/home/pi/Desktop/PythonOpenCV/log.txt','w')
+              f.write('Relay1-TurnOff')
+              f.close()
               print('Relay1-TurnOn-false')
 
       if message['path']== '/Blink':
@@ -68,7 +74,7 @@ def stream_relay1(message):
              global checkRelay1
              checkRelay1=True
              t = threading.Thread(name='1',target=worker1)
-             t.start()          
+             t.start()
              print('Relay1-Blink-true')
           else:
               global checkRelay1
@@ -87,7 +93,7 @@ def stream_relay2(message):
              global checkRelay2
              checkRelay2=True
              t = threading.Thread(name='2',target=worker2)
-             t.start()  
+             t.start()
              print('Relay2-Blink-true')
          else:
               global checkRelay2
@@ -106,7 +112,7 @@ def stream_relay3(message):
               print('Relay3-Blink-true')
          else:
               print('Relay3-Blink-false')
-    
+
 relay1 = db.child("MinhTrung/Relay1").stream(stream_relay1)
 relay2 = db.child("MinhTrung/Relay2").stream(stream_relay2)
 relay3 = db.child("MinhTrung/Relay3").stream(stream_relay3)
