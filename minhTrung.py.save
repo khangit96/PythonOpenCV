@@ -1,5 +1,5 @@
 import pyrebase
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 import threading
 
@@ -14,14 +14,10 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-#Init Relay
-RELAY_1=27
-RELAY_2=22
-
 #init GPIO
-GPIO.setmode(GPIO.BCM)
+# GPIO.setmode(GPIO.BCM)
 
-GPIO.setwarnings(False)
+# GPIO.setwarnings(False)
 
 # GPIO.setup(13,GPIO.OUT)
 # GPIO.setup(6,GPIO.OUT)
@@ -29,91 +25,78 @@ GPIO.setwarnings(False)
 # GPIO.setup(11,GPIO.OUT)
 
 # GPIO.setup(9,GPIO.OUT)
-#GPIO.setup(10,GPIO.OUT) #relay3
-GPIO.setup(RELAY_2,GPIO.OUT) #relay2
-GPIO.setup(RELAY_1,GPIO.OUT) #relay1
+ GPIO.setup(10,GPIO.OUT) #
 
 # GPIO.output(13,GPIO.LOW)
-#GPIO.output(6,GPIO.LOW)
-#GPIO.output(5,GPIO.LOW)
+# GPIO.output(6,GPIO.LOW)
+# GPIO.output(5,GPIO.LOW)
 # GPIO.output(11,GPIO.LOW)
 # GPIO.output(9,GPIO.LOW)
-#GPIO.output(10,GPIO.LOW)
-GPIO.output(RELAY_1,GPIO.LOW)
-GPIO.output(RELAY_2,GPIO.LOW)
+# GPIO.output(10,GPIO.LOW)
+# GPIO.output(22,GPIO.LOW)
+# GPIO.output(27,GPIO.LOW)
 
 #Thread
-checkRelay1=False
-checkRelay2=False
+checkRelay1=True
+checkRelay2=True
 
 def worker1():
     global checkRelay1
-    while checkRelay1:
-         blinkRelay(RELAY_1)
-
+    while checkRelay1==True:
+        print('worker1: '+str(checkRelay1))
+        time.sleep(1)
 
 def worker2():
     global checkRelay2
-    while checkRelay2:
-        blinkRelay(RELAY_2)
-        
-def blinkRelay(gpio):
-     GPIO.output(gpio,GPIO.LOW)
-     time.sleep(1)
-     GPIO.output(gpio,GPIO.HIGH)
-     time.sleep(1)
-    
-def turnOn(gpio):
-    GPIO.output(gpio,GPIO.HIGH)
-    
-def turnOff(gpio):
-    GPIO.output(gpio,GPIO.LOW)
-    
-#Stream Relay1
+    while checkRelay2==True:
+        print('worker2: '+str(checkRelay2))
+        time.sleep(1)
+#Relay1
 def stream_relay1(message):
       if message['path']== '/TurnOn':
-          if message['data']:
-              turnOn(RELAY_1)
+          if message['data']==True:
+              #GPIO.output(27,GPIO.HIGH)
+              f=open('/home/pi/Desktop/PythonOpenCV/log.txt','w')
+              f.write('Relay1-TurnOn')
+              f.close()
               print('Relay1-TurnOn-true')
-              
           else:
-              turnOff(RELAY_1)
-            
+             # GPIO.output(27,GPIO.LOW)
+              f=open('/home/pi/Desktop/PythonOpenCV/log.txt','w')
+              f.write('Relay1-TurnOff')
+              f.close()
               print('Relay1-TurnOn-false')
 
       if message['path']== '/Blink':
-          if message['data']:
-             if GPIO.input(RELAY_1)==1:
-                 global checkRelay1
-                 checkRelay1=True
-                 t = threading.Thread(name='1',target=worker1)
-                 t.start()
-                 print('Relay1-Blink-true')
+          if message['data']==True:
+             global checkRelay1
+             checkRelay1=True
+             t = threading.Thread(name='1',target=worker1)
+             t.start()
+             print('Relay1-Blink-true')
           else:
               global checkRelay1
               checkRelay1=False
               print('Relay1-Blink-false')
-#Stream Relay2
+#Relay2
 def stream_relay2(message):
     if message['path']== '/TurnOn':
-          if message['data']:
-              turnOn(RELAY_2)
+          if message['data']==True:
               print('Relay2-TurnOn-true')
           else:
-              turnOff(RELAY_2)
-        
+              print('Relay2-TurnOn-false')
+
     if message['path']== '/Blink':
-         if message['data']:
-             if GPIO.input(RELAY_2)==1:
-                 global checkRelay2
-                 checkRelay2=True
-                 t = threading.Thread(name='1',target=worker2)
-                 t.start()
-               
+         if message['data']==True:
+             global checkRelay2
+             checkRelay2=True
+             t = threading.Thread(name='2',target=worker2)
+             t.start()
+             print('Relay2-Blink-true')
          else:
-            global checkRelay2
-            checkRelay2=False
-            
+              global checkRelay2
+              checkRelay2=False
+              print('Relay2-Blink-false')
 #Relay3
 def stream_relay3(message):
      if message['path']== '/TurnOn':
