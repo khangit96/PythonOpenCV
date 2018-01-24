@@ -2,6 +2,20 @@ import pyrebase
 import RPi.GPIO as GPIO
 import time
 import threading
+import urllib.request
+
+#Check WifiConnect
+checkWifiConnect=False
+
+while not checkWifiConnect:
+  try:
+    url = "https://www.google.com"
+    urllib.request.urlopen(url)
+    checkWifiConnect = True
+  except:
+    checkWifiConnect= False
+
+print('startee')
 
 #init Firebase
 config = {
@@ -17,34 +31,67 @@ db = firebase.database()
 #Init Relay
 RELAY_1=27
 RELAY_2=22
+RELAY_3=10
+RELAY_4=9
+RELAY_5=11
+RELAY_6=5
 
 #init GPIO
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
 
-# GPIO.setup(13,GPIO.OUT)
-# GPIO.setup(6,GPIO.OUT)
-# GPIO.setup(5,GPIO.OUT)
-# GPIO.setup(11,GPIO.OUT)
+GPIO.setup(RELAY_1,GPIO.OUT)
+GPIO.setup(RELAY_2,GPIO.OUT)
+GPIO.setup(RELAY_3,GPIO.OUT)
+GPIO.setup(RELAY_4,GPIO.OUT)
+GPIO.setup(RELAY_5,GPIO.OUT)
+GPIO.setup(RELAY_6,GPIO.OUT)
 
-# GPIO.setup(9,GPIO.OUT)
-#GPIO.setup(10,GPIO.OUT) #relay3
-GPIO.setup(RELAY_2,GPIO.OUT) #relay2
-GPIO.setup(RELAY_1,GPIO.OUT) #relay1
+def blinkRelay(gpio):
+     GPIO.output(gpio,GPIO.LOW)
+     time.sleep(1)
+     GPIO.output(gpio,GPIO.HIGH)
+     time.sleep(1)
+    
+def turnOn(gpio):
+    GPIO.output(gpio,GPIO.HIGH)
+    
+def turnOff(gpio):
+    GPIO.output(gpio,GPIO.LOW)
 
-# GPIO.output(13,GPIO.LOW)
-#GPIO.output(6,GPIO.LOW)
-#GPIO.output(5,GPIO.LOW)
-# GPIO.output(11,GPIO.LOW)
-# GPIO.output(9,GPIO.LOW)
-#GPIO.output(10,GPIO.LOW)
-GPIO.output(RELAY_1,GPIO.LOW)
-GPIO.output(RELAY_2,GPIO.LOW)
+def setGPIO(gpio,child):
+    blink=db.child(child+'Blink').get()
+    turnOn=db.child(child+'TurnOn').get()
+    
+    if  turnOn.val():
+        turnOn(gpio)
+        print('turnOn true:'+child)
+    else:
+        turnOff(gpio)
+        print('turnOn false:' +child)
+               
+    #if blink.val():
+      #  if GPIO.input(RELAY_1)==1:
+           # blinkRelay(gpio)
+           # print('blink true:'+child)
+    #else:
+      # print('blink false:'+child)
+        
+setGPIO(RELAY_1,'MinhTrung/Relay1/')
+setGPIO(RELAY_1,'MinhTrung/Relay2/')
+setGPIO(RELAY_1,'MinhTrung/Relay3/')
+setGPIO(RELAY_1,'MinhTrung/Relay4/')
+setGPIO(RELAY_1,'MinhTrung/Relay5/')
+setGPIO(RELAY_1,'MinhTrung/Relay6/')
 
 #Thread
 checkRelay1=False
 checkRelay2=False
+checkRelay3=False
+checkRelay4=False
+checkRelay5=False
+checkRelay6=False
 
 def worker1():
     global checkRelay1
@@ -57,17 +104,25 @@ def worker2():
     while checkRelay2:
         blinkRelay(RELAY_2)
         
-def blinkRelay(gpio):
-     GPIO.output(gpio,GPIO.LOW)
-     time.sleep(1)
-     GPIO.output(gpio,GPIO.HIGH)
-     time.sleep(1)
-    
-def turnOn(gpio):
-    GPIO.output(gpio,GPIO.HIGH)
-    
-def turnOff(gpio):
-    GPIO.output(gpio,GPIO.LOW)
+def worker3():
+    global checkRelay3
+    while checkRelay3:
+        blinkRelay(RELAY_3)
+        
+def worker4():
+    global checkRelay4
+    while checkRelay4:
+        blinkRelay(RELAY_4)
+        
+def worker5():
+    global checkRelay5
+    while checkRelay5:
+        blinkRelay(RELAY_5)
+        
+def worker6():
+    global checkRelay6
+    while checkRelay6:
+        blinkRelay(RELAY_6)
     
 #Stream Relay1
 def stream_relay1(message):
