@@ -1,5 +1,16 @@
 import pyrebase
+import urllib.request
 
+checkWifiConnect=False
+
+while not checkWifiConnect:
+  try:
+    url = "https://www.google.com"
+    urllib.request.urlopen(url)
+    checkWifiConnect = True
+  except:
+    checkWifiConnect= False
+    
 config = {
   "apiKey": "uTP6tlP930oA1s9zuwGIZvrz1ef8ZjVLegROgNN0",
   "authDomain": "smarthome-5d11a.firebaseapp.com",
