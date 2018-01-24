@@ -65,10 +65,10 @@ def setGPIO(gpio,child):
     turnOn=db.child(child+'TurnOn').get()
     
     if  turnOn.val():
-        turnOn(gpio)
+       # turnOn(gpio)
         print('turnOn true:'+child)
     else:
-        turnOff(gpio)
+        #turnOff(gpio)
         print('turnOn false:' +child)
                
     #if blink.val():
@@ -225,87 +225,9 @@ def stream_relay5(message):
                  t = threading.Thread(name='1',target=worker5)
                  t.start()     
          else:
-<<<<<<< HEAD
-              print('Relay3-Blink-false') if message['path']== '/TurnOn':
-          if message['data']:
-              turnOn(RELAY_3)
-              print('Relay3-TurnOn-true')
-          else:
-              turnOff(RELAY_3)
-        
-    if message['path']== '/Blink':
-         if message['data']:
-             if GPIO.input(RELAY_3)==1:
-                 global checkRelay3
-                 checkRelay3=True
-                 t = threading.Thread(name='1',target=worker3)
-                 t.start()
-               
-         else:
-            global checkRelay3
-            checkRelay3=False
+              global checkRelay5
+              checkRelay5=False
                           
-#Relay4
-def stream_relay4(message):
-    if message['path']== '/TurnOn':
-          if message['data']==True:
-              print('Relay3-TurnOn-true')
-          else:
-              print('Relay3-TurnOn-false')
-
-     if message['path']== '/Blink':
-         if message['data']==True:
-              print('Relay3-Blink-true')
-         else:
-              print('Relay3-Blink-false') if message['path']== '/TurnOn':
-          if message['data']:
-              turnOn(RELAY_3)
-              print('Relay3-TurnOn-true')
-          else:
-              turnOff(RELAY_3)
-        
-    if message['path']== '/Blink':
-         if message['data']:
-             if GPIO.input(RELAY_3)==1:
-                 global checkRelay3
-                 checkRelay3=True
-                 t = threading.Thread(name='1',target=worker3)
-                 t.start()
-               
-         else:
-            global checkRelay3
-            checkRelay3=False
-                          
-            
-#Relay5
-def stream_relay5(message):
-     if message['path']== '/TurnOn':
-          if message['data']==True:
-              print('Relay3-TurnOn-true')
-          else:
-              print('Relay3-TurnOn-false')
-
-     if message['path']== '/Blink':
-         if message['data']==True:
-              print('Relay3-Blink-true')
-         else:
-              print('Relay3-Blink-false')
-            
-#Relay6
-def stream_relay3(message):
-     if message['path']== '/TurnOn':
-          if message['data']==True:
-              print('Relay3-TurnOn-true')
-          else:
-              print('Relay3-TurnOn-false')
-
-     if message['path']== '/Blink':
-         if message['data']==True:
-              print('Relay3-Blink-true')
-         else:
-            print('Relay3-Blink-false')
-            global checkRelay5
-            checkRelay5=False
 #Relay6
 def stream_relay6(message):
     if message['path']== '/TurnOn':
