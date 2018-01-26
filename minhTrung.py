@@ -50,26 +50,70 @@ GPIO.setup(RELAY_6,GPIO.OUT)
 
 #Blink Relay
 def blinkRelay(gpio):
-    #  GPIO.output(gpio,GPIO.LOW)
-    #  time.sleep(1)
-    #  GPIO.output(gpio,GPIO.HIGH)
-    #  time.sleep(1)
+      GPIO.output(gpio,GPIO.LOW)
+      time.sleep(1)
+      GPIO.output(gpio,GPIO.HIGH)
+      time.sleep(1)
+      print('')
 
 #TurnOn
 def turnOn(gpio):
-    #GPIO.output(gpio,GPIO.HIGH)
+    GPIO.output(gpio,GPIO.HIGH)
+    print('')
 
 #TurnOff
 def turnOff(gpio):
-    #GPIO.output(gpio,GPIO.LOW)
+    GPIO.output(gpio,GPIO.LOW)
+    print('')
+    
+#Worker Relay1
+def worker1():
+    global checkRelay1
+    while checkRelay1:
+         print('worker 1')
+         blinkRelay(RELAY_1)
 
+#Worker Relay2
+def worker2():
+    global checkRelay2
+    while checkRelay2:
+        print('worker 2')
+        blinkRelay(RELAY_2)
+
+#Worker Relay3        
+def worker3():
+    global checkRelay3
+    while checkRelay3:
+        print('worker 3')
+        blinkRelay(RELAY_3)
+
+#Worker Relay4
+def worker4():
+    global checkRelay4
+    while checkRelay4:
+        print('worker 4')
+        blinkRelay(RELAY_4)
+
+#Worker Relay5        
+def worker5():
+    global checkRelay5
+    while checkRelay5:
+        print('worker 5')
+        blinkRelay(RELAY_5)
+
+#Worker Relay6
+def worker6():
+    global checkRelay6
+    while checkRelay6:
+        print('worker 6')
+        blinkRelay(RELAY_6)
 #Set GPIO
 def setGPIO(gpio,child):
     blink=db.child(child+'Blink').get()
-    turnOn=db.child(child+'TurnOn').get()
+    turnon=db.child(child+'TurnOn').get()
     
-    if  turnOn.val():
-       # turnOn(gpio)
+    if  turnon.val():
+        turnOn(gpio)
         print('turnOn true:'+child)
                
     if blink.val():
@@ -104,15 +148,15 @@ def setGPIO(gpio,child):
             t = threading.Thread(name='1',target=worker6)
             t.start()
 
-        blinkRelay(gpio)
+        #blinkRelay(gpio)
 
 #Restore GPIO
 setGPIO(RELAY_1,'MinhTrung/Relay1/')
-setGPIO(RELAY_1,'MinhTrung/Relay2/')
-setGPIO(RELAY_1,'MinhTrung/Relay3/')
-setGPIO(RELAY_1,'MinhTrung/Relay4/')
-setGPIO(RELAY_1,'MinhTrung/Relay5/')
-setGPIO(RELAY_1,'MinhTrung/Relay6/')
+setGPIO(RELAY_2,'MinhTrung/Relay2/')
+setGPIO(RELAY_3,'MinhTrung/Relay3/')
+setGPIO(RELAY_4,'MinhTrung/Relay4/')
+setGPIO(RELAY_5,'MinhTrung/Relay5/')
+setGPIO(RELAY_6,'MinhTrung/Relay6/')
 
 #Thread
 checkRelay1=False
@@ -121,42 +165,6 @@ checkRelay3=False
 checkRelay4=False
 checkRelay5=False
 checkRelay6=False
-
-#Worker Relay1
-def worker1():
-    global checkRelay1
-    while checkRelay1:
-         blinkRelay(RELAY_1)
-
-#Worker Relay2
-def worker2():
-    global checkRelay2
-    while checkRelay2:
-        blinkRelay(RELAY_2)
-
-#Worker Relay3        
-def worker3():
-    global checkRelay3
-    while checkRelay3:
-        blinkRelay(RELAY_3)
-
-#Worker Relay4
-def worker4():
-    global checkRelay4
-    while checkRelay4:
-        blinkRelay(RELAY_4)
-
-#Worker Relay5        
-def worker5():
-    global checkRelay5
-    while checkRelay5:
-        blinkRelay(RELAY_5)
-
-#Worker Relay6
-def worker6():
-    global checkRelay6
-    while checkRelay6:
-        blinkRelay(RELAY_6)
     
 #Stream Relay1
 def stream_relay1(message):
