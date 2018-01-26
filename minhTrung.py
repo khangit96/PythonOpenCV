@@ -3,6 +3,25 @@ import RPi.GPIO as GPIO
 import time
 import threading
 import urllib.request
+import os
+
+#init GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+#worker shutdwon        
+def workerShutdown():
+    while True:
+        print('listen shutdown')
+        input_state = GPIO.input(26)
+        if input_state == False:
+            os.system('sudo shutdown -h now')
+            time.sleep(0.2)
+        
+#Listen Shutdown
+sd = threading.Thread(name='31',target=workerShutdown)
+sd.start()
 
 #Check WifiConnect
 checkWifiConnect=False
@@ -37,10 +56,6 @@ RELAY_5=11
 RELAY_6=5
 
 #init GPIO
-GPIO.setmode(GPIO.BCM)
-
-GPIO.setwarnings(False)
-
 GPIO.setup(RELAY_1,GPIO.OUT)
 GPIO.setup(RELAY_2,GPIO.OUT)
 GPIO.setup(RELAY_3,GPIO.OUT)
@@ -107,6 +122,7 @@ def worker6():
     while checkRelay6:
         print('worker 6')
         blinkRelay(RELAY_6)
+        
 #Set GPIO
 def setGPIO(gpio,child):
     blink=db.child(child+'Blink').get()
