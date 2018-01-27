@@ -1,0 +1,13 @@
+git remote set-url origin git@github.com:<Username>/<Project>.git
+git rm -r --cached myFolder
+git push -f origin /branch/
+apt list --installed
+sudo pip3 install apiai -t /usr/local/lib/python3.5/dist-packages/ss
+sudo apt-get --purge remove ctave3.2
+ ionic cordova run android --device
+apt list --installed
+sudo dpkg -S skype
+dpkg -l | grep pdf
+xdg-open file.txt
+curl ... | json_pp 
+sudo docker ps -qa | xargs -n1 sudo docker rm
