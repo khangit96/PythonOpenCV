@@ -4,7 +4,7 @@ import os
 from PIL import Image
 
 prefixUrl='/home/khang/Downloads/'
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier('../haarcascade_frontalface_default.xml')
 
 def dataGenerate(path,id):
     imagePaths=[os.path.join(path,f) for f in os.listdir(path)] 
@@ -22,4 +22,4 @@ def dataGenerate(path,id):
 
        print(imgP+'Face {0}'.format(len(faces)))
 
-#dataGenerate(prefixUrl+'truonggiang',1)
+dataGenerate(prefixUrl+'truonggiang',1)

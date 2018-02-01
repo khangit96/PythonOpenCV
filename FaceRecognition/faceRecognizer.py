@@ -8,7 +8,7 @@ faceCascade = cv2.CascadeClassifier("../haarcascade_frontalface_default.xml");
 cam = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-img = cv2.imread('/home/khang/Downloads/tranthanh/Test/test9.jpg')
+img = cv2.imread('/home/khang/Downloads/test/17.jpg')
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 faces=faceCascade.detectMultiScale(gray, 1.2,5)
 
@@ -19,6 +19,8 @@ for(x,y,w,h) in faces:
             Id="Truong giang"
         elif Id==2:
             Id="Tran thanh"
+        elif Id==3:
+            Id='Hoai Linh'    
         else:
             Id="Unknown"
         print(Id)
