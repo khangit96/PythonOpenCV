@@ -11,3 +11,5 @@ dpkg -l | grep pdf
 xdg-open file.txt
 curl ... | json_pp 
 sudo docker ps -qa | xargs -n1 sudo docker rm
+sudo docker run --name demo -ti --rm myimage /bin/sh
+
