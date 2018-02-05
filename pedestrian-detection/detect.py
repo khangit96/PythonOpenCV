@@ -9,7 +9,7 @@ import cv2,os
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
-image = cv2.imread('/home/khang/Downloads/test.jpg')
+image = cv2.imread('/home/khang/Downloads/nh.jpg')
 image = imutils.resize(image, width=min(400, image.shape[1]))
 orig = image.copy()
 
