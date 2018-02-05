@@ -14,4 +14,5 @@ curl ... | json_pp
 sudo docker ps -qa | xargs -n1 sudo docker rm #remove all container
 sudo docker run --name demo -ti --rm myimage /bin/sh #run container interactive 
 docker run -d -p 88:8000 khangit96/webserver #change port mapping
-
+--------GIT------------------
+git add ./*
