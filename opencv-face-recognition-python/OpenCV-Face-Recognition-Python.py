@@ -51,7 +51,7 @@ import numpy as np
 # In[2]:
 
 #there is no label 0 in our training data so subject name for index/label 0 is empty
-subjects = ["", "Trấn Thành", "Trường Giang"]
+subjects = ["", "Messi", "Trường Giang"]
 
 
 # ### Prepare training data
@@ -295,7 +295,7 @@ def predict(test_img):
 
 print("Predicting images...")
 
-test_img1 = cv2.imread("/home/khang/Downloads/tranthanh.jpg")
+test_img1 = cv2.imread("/home/khang/Downloads/1.jpg")
 #test_img2 = cv2.imread("test-data/test2.jpg")
 
 predicted_img1 = predict(test_img1)
