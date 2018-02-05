@@ -6,11 +6,16 @@ RUN apk update && apk add build-base && apk add nano
 RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
 
 RUN mkdir Server
+
+COPY requirements.txt /tmp/requirements.txt
+
+RUN pip install -r /tmp/requirements.txt
+
 #COPY . /Server
 
-#WORKDIR /Server
+WORKDIR /Server
 
-RUN pip install -r requirements.txt
+EXPOSE  5000
 
 CMD ["python", "Server.py"]
 
