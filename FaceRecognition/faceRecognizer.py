@@ -34,6 +34,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
             Id='Truong Giang'
         elif Id==4:
             Id='Me'
+        elif Id==5:
+            Id='Ba'
         else:
             Id="Unknown"
             
