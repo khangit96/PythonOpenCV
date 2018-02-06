@@ -51,11 +51,7 @@ import numpy as np
 # In[2]:
 
 #there is no label 0 in our training data so subject name for index/label 0 is empty
-<<<<<<< HEAD
-subjects = ["", "Messi", "Trường Giang"]
-=======
 subjects = ["", "Truong Giang", "Tran Thanh"]
->>>>>>> ec80fb27ad8a5996673d66de4cee115cb4500026
 
 
 # ### Prepare training data
@@ -244,7 +240,7 @@ print("Total labels: "+ str(len(labels)))
 # In[6]:
 
 #create our LBPH face recognizer 
-face_recognizer = cv2.face.LBPHFaceRecognizer_create()
+face_recognizer = cv2.face.createLBPHFaceRecognizer()
 
 #or use EigenFaceRecognizer by replacing above line with 
 #face_recognizer = cv2.face.EigenFaceRecognizer_create()
@@ -298,7 +294,7 @@ def predict(test_img):
     return img
 
 print("Predicting images...")
-test_img1 = cv2.imread("/home/khang/Downloads/1.jpg")
+test_img1 = cv2.imread("/home/khang/Downloads/tranthanh2.jpg")
 
 #test_img2 = cv2.imread("test-data/test2.jpg")
 
