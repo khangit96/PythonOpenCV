@@ -8,7 +8,7 @@ faceCascade = cv2.CascadeClassifier("../haarcascade_frontalface_default.xml");
 cam = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-img = cv2.imread('/home/khang/Downloads/ruby.jpg')
+img = cv2.imread('/home/khang/Downloads/keen.jpg')
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 faces=faceCascade.detectMultiScale(gray, 1.2,5)
 
