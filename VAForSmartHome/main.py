@@ -24,7 +24,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         
     for (x,y,w,h) in faces:
         count+=1
-        cv2.imwrite('tran'+str(count)+'.jpg',gray[y:y+h,x:x+w])
+        cv2.imwrite('user.2.'+str(count)+'.jpg',gray[y:y+h,x:x+w])
         print('Detect face')
         img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         
