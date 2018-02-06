@@ -29,7 +29,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
         img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         
     cv2.imshow("Frame", img)
-    key = cv2.waitKey(1) & 0xFF
+    cv2.waitKey(100)
  
     rawCapture.truncate(0)
  
