@@ -1,26 +1,29 @@
 import cv2
+import cv2.face
 import numpy as np
 
-recognizer = cv2.face.createLBPHFaceRecognizer()
-recognizer.load('trainner.yml')
+recognizer = cv2.face.LBPHFaceRecognizer_create()
+recognizer.read('trainner.yml')
 faceCascade = cv2.CascadeClassifier("../haarcascade_frontalface_default.xml");
 
 cam = cv2.VideoCapture(0)
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-img = cv2.imread('/home/khang/Downloads/keen.jpg')
+img = cv2.imread('DataTest/user.1.2.jpg')
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 faces=faceCascade.detectMultiScale(gray, 1.2,5)
 
 for(x,y,w,h) in faces:
         cv2.rectangle(img,(x,y),(x+w,y+h),(225,0,0),2)
-        Id = recognizer.predict(gray[y:y+h,x:x+w])
+        Id, con = recognizer.predict(gray[y:y+h,x:x+w])
         if Id==1:
             Id="Ruby"
         elif Id==2:
             Id="Keen"
         elif Id==3:
-            Id='Truong Giang'    
+            Id='Truong Giang'
+        elif Id==4:
+            Id='Me'
         else:
             Id="Unknown"
         print(Id)

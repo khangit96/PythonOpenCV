@@ -1,25 +1,37 @@
-import numpy as np
 import cv2
-import os
-from PIL import Image
+import numpy as np
+import sys
 
-prefixUrl='/home/khang/Downloads/'
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
+
 face_cascade = cv2.CascadeClassifier('../haarcascade_frontalface_default.xml')
 
-def dataGenerate(path,id):
-    imagePaths=[os.path.join(path,f) for f in os.listdir(path)] 
-    count=0
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+ 
+time.sleep(0.1)
+count=0
 
-    for imgP in imagePaths:
-       img = cv2.imread(imgP)
-       gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-       faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
-       for (x,y,w,h) in faces:
-            count+=1
-            img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-            cv2.imwrite("Dataset/user."+str(id)+"."+str(count)+".jpg",gray[y:y+h,x:x+w])
-
-       print(imgP+'Face {0}'.format(len(faces)))
-
-dataGenerate(prefixUrl+'truonggiang',1)
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+     
+    img = frame.array
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        
+    for (x,y,w,h) in faces:
+        count+=1
+        cv2.imwrite('user.4.'+str(count)+'.jpg',gray[y:y+h,x:x+w])
+        print('Detect face')
+        img = cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+        
+    cv2.imshow("Frame", img)
+    key = cv2.waitKey(1) & 0xFF
+ 
+    rawCapture.truncate(0)
+ 
+    if key == ord("q"):
+	    break

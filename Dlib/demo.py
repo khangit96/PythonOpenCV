@@ -7,22 +7,22 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 
-picture_of_me = face_recognition.load_image_file("/home/khang/Downloads/know.jpg")
-my_face_encoding = face_recognition.face_encodings(picture_of_me)[0]
+#picture_of_me = face_recognition.load_image_file("/home/khang/Downloads/know.jpg")
+#my_face_encoding = face_recognition.face_encodings(picture_of_me)[0]
 
 #my_face_encoding now contains a universal 'encoding' of my facial features that can be compared to any other picture of a face!
 
-unknown_picture = face_recognition.load_image_file("/home/khang/Downloads/unknow.jpg")
-unknown_face_encoding = face_recognition.face_encodings(unknown_picture)[0]
+#unknown_picture = face_recognition.load_image_file("/home/khang/Downloads/unknow.jpg")
+#unknown_face_encoding = face_recognition.face_encodings(unknown_picture)[0]
 
 # Now we can see the two face encodings are of the same person with `compare_faces`!
 
-results = face_recognition.compare_faces([my_face_encoding], unknown_face_encoding)
+#results = face_recognition.compare_faces([my_face_encoding], unknown_face_encoding)
 
-if results[0] == True:
-    print("It's a picture of me!")
-else:
-    print("It's not a picture of me!")
+#if results[0] == True:
+    #print("It's a picture of me!")
+#else:
+   # print("It's not a picture of me!")
 
 # Load the jpg file into a numpy array
 
@@ -43,9 +43,7 @@ else:
 #         pil_image = Image.fromarray(face_image)
 #         pil_image.show()
 
-<<<<<<< HEAD
 # detectFace("/home/khang/Downloads/nh.jpg")
-=======
 #detectFace("/home/pi/Downloads/truonggiang.png")
 
 
@@ -93,4 +91,3 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
  
     if key == ord("q"):
 	    break
->>>>>>> ec80fb27ad8a5996673d66de4cee115cb4500026
